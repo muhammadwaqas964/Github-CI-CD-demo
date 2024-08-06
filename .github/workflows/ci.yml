@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,15 +19,15 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} 
 
       - name: Build Docker image
         run: |
-          echo "Building Docker image..."
+          echo "Building Docker image..." 
           docker build -t pclass-waqas .
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted   
     needs: build
     steps:
       - name: Deploy Docker container
@@ -38,7 +38,7 @@ jobs:
           docker run -d --name pclass-waqas -p 8080:8080 -p 8081:8081 pclass-waqas
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted   
     needs: deploy
     steps:
       - name: Test Docker deployment
